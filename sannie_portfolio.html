@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sannie — Data Analyst</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Mono:wght@300;400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0D0D0D;
+    --cream: #F9F6F5;
+    --accent: #C090FF;
+    --mid: #7A7A7A;
+    --border: #E2DEDC;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--black);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    background: var(--black);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 3rem;
+    height: 60px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .nav-name {
+    font-family: 'DM Mono', monospace;
+    color: var(--cream);
+    font-size: 0.85rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+
+  .nav-icons {
+    display: flex;
+    gap: 1.4rem;
+    align-items: center;
+  }
+
+  .nav-icons a {
+    color: var(--cream);
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+  }
+
+  .nav-icons a:hover { opacity: 1; }
+
+  .nav-icons svg { width: 18px; height: 18px; fill: currentColor; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: calc(100vh - 60px);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left {
+    padding: 5rem 4rem 5rem 5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-greeting {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    margin-bottom: 0.3rem;
+  }
+
+  .hero-name {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3rem, 5vw, 5.5rem);
+    font-weight: 900;
+    line-height: 1.0;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  .hero-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.6;
+    max-width: 380px;
+    margin-bottom: 3rem;
+  }
+
+  .hero-cta {
+    display: inline-block;
+    background: var(--black);
+    color: var(--cream);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.9rem 2rem;
+    text-decoration: none;
+    transition: background 0.2s, color 0.2s;
+    width: fit-content;
+  }
+
+  .hero-cta:hover {
+    background: var(--accent);
+  }
+
+  /* Hero right — big typographic statement */
+  .hero-right {
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4rem 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-right::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 39px,
+      rgba(255,255,255,0.03) 39px,
+      rgba(255,255,255,0.03) 40px
+    );
+  }
+
+  .hero-stat-stack {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+  }
+
+  .hero-big-num {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(5rem, 10vw, 9rem);
+    font-weight: 900;
+    color: var(--cream);
+    line-height: 1;
+    opacity: 0.12;
+    position: absolute;
+    top: -2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+  }
+
+  .insight-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 3rem;
+  }
+
+  /* ── INSIGHTS SECTION ── */
+  .insights {
+    padding: 6rem 5rem;
+    border-top: 1px solid var(--border);
+    background: var(--accent);
+  }
+
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 4rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 3rem;
+  }
+
+  .insight-card {
+    position: relative;
+    padding-top: 1.5rem;
+    border-top: 2px solid var(--black);
+  }
+
+  .insight-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--border);
+    line-height: 1;
+    margin-bottom: 1rem;
+  }
+
+  .insight-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+    line-height: 1.3;
+  }
+
+  .insight-body {
+    font-size: 0.9rem;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.7;
+  }
+
+  .insight-tag {
+    display: inline-block;
+    margin-top: 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: transparent;
+    border: 1px solid var(--accent);
+    padding: 0.3rem 0.7rem;
+  }
+
+  .insights .section-label {
+    color: rgba(0,0,0,0.5);
+  }
+
+  .insights .section-label::after {
+    background: rgba(0,0,0,0.15);
+  }
+
+  .insights .insight-card {
+    border-top: 2px solid var(--black);
+  }
+
+  .insights .insight-num {
+    color: #C0FF77;
+  }
+
+  .insights .insight-title {
+    color: var(--black);
+  }
+
+  .insights .insight-body {
+    color: rgba(0,0,0,0.6);
+  }
+
+  .insights .insight-tag {
+    color: var(--black);
+    border-color: var(--black);
+  }
+  .projects {
+    padding: 6rem 5rem;
+    background: var(--black);
+  }
+
+  .projects .section-label {
+    color: rgba(255,255,255,0.3);
+  }
+
+  .projects .section-label::after {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+  }
+
+  .project-card {
+    background: #161616;
+    padding: 3rem;
+    text-decoration: none;
+    color: var(--cream);
+    display: block;
+    transition: background 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-card:hover {
+    background: #1e1e1e;
+  }
+
+  .project-card::after {
+    content: '↗';
+    position: absolute;
+    top: 2rem;
+    right: 2rem;
+    font-size: 1.2rem;
+    opacity: 0.3;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  .project-card:hover::after {
+    opacity: 1;
+    transform: translate(3px, -3px);
+  }
+
+  .project-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    margin-bottom: 2rem;
+  }
+
+  .project-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .project-desc {
+    font-size: 0.88rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.7;
+    margin-bottom: 2rem;
+  }
+
+  .project-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.7rem;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(255,255,255,0.06);
+    padding: 2rem 5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  footer span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-eyebrow { animation: fadeUp 0.6s ease both; }
+  .hero-greeting { animation: fadeUp 0.6s 0.1s ease both; }
+  .hero-name { animation: fadeUp 0.6s 0.2s ease both; }
+  .hero-sub { animation: fadeUp 0.6s 0.3s ease both; }
+  .hero-cta { animation: fadeUp 0.6s 0.4s ease both; }
+
+  /* Ticker tape */
+  .ticker {
+    background: var(--accent);
+    overflow: hidden;
+    padding: 0.6rem 0;
+    white-space: nowrap;
+  }
+
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 20s linear infinite;
+  }
+
+  .ticker-inner span {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: white;
+    padding: 0 2rem;
+  }
+
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+
+  /* ── PROJECT PAGE (hidden by default) ── */
+  .page { display: none; }
+  .page.active { display: block; }
+  #home.active { display: grid; grid-template-rows: auto; }
+
+  /* Project page styles */
+  .project-hero {
+    background: var(--black);
+    padding: 6rem 5rem 4rem;
+    color: var(--cream);
+  }
+
+  .back-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 3rem;
+    transition: color 0.2s;
+    cursor: pointer;
+    background: none;
+    border: none;
+  }
+
+  .back-btn:hover { color: var(--cream); }
+
+  .project-hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 4vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    max-width: 700px;
+    margin-bottom: 1.5rem;
+  }
+
+  .project-hero-sub {
+    font-size: 1rem;
+    font-weight: 300;
+    color: rgba(255,255,255,0.5);
+    max-width: 580px;
+    line-height: 1.7;
+  }
+
+  .project-meta {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .meta-item label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.3);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+
+  .meta-item span {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.7);
+  }
+
+  .project-content {
+    padding: 5rem;
+    max-width: 900px;
+  }
+
+  .project-content h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    margin-top: 3rem;
+  }
+
+  .project-content h2:first-child { margin-top: 0; }
+
+  .project-content p {
+    font-size: 0.95rem;
+    font-weight: 300;
+    line-height: 1.8;
+    color: #3a3a3a;
+    margin-bottom: 1rem;
+  }
+
+  .viz-placeholder {
+    width: 100%;
+    aspect-ratio: 16/9;
+    background: var(--black);
+    border: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2.5rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .viz-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255,255,255,0.02) 10px,
+      rgba(255,255,255,0.02) 11px
+    );
+  }
+
+  .viz-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.2);
+    position: relative;
+    z-index: 1;
+  }
+
+  .limitation-box {
+    background: #F0EDE9;
+    border-left: 3px solid var(--accent);
+    padding: 1.2rem 1.5rem;
+    margin: 2rem 0;
+    font-size: 0.85rem;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #4a4a4a;
+  }
+
+  .limitation-box strong {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: block;
+    margin-bottom: 0.4rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════ -->
+<!-- HOME PAGE                                  -->
+<!-- ══════════════════════════════════════════ -->
+<div id="home" class="page active">
+
+  <nav>
+    <span class="nav-name">Sannie</span>
+    <div class="nav-icons">
+      <!-- LinkedIn -->
+      <a href="https://www.linkedin.com/in/sannie-ek/" target="_blank" title="LinkedIn">
+        <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+      </a>
+      <!-- GitHub -->
+      <a href="https://github.com/sannieisegg" target="_blank" title="GitHub">
+        <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+      </a>
+      <!-- Email -->
+      <a href="mailto:sannie.ek@gmail.com" title="Email">
+        <svg viewBox="0 0 24 24"><path d="M24 5.457v13.909c0 .904-.732 1.636-1.636 1.636h-3.819V11.73L12 16.64l-6.545-4.91v9.273H1.636A1.636 1.636 0 010 19.366V5.457c0-2.023 2.309-3.178 3.927-1.964L5.455 4.64 12 9.548l6.545-4.910 1.528-1.145C21.69 2.28 24 3.434 24 5.457z"/></svg>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Ticker -->
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span>Creative Australia Grants Analysis</span>
+      <span>·</span>
+      <span>NLP Topic Modelling</span>
+      <span>·</span>
+      <span>Street Dance in Focus</span>
+      <span>·</span>
+      <span>BERTopic</span>
+      <span>·</span>
+      <span>Arts Funding Patterns 2015–2025</span>
+      <span>·</span>
+      <span>Creative Australia Grants Analysis</span>
+      <span>·</span>
+      <span>NLP Topic Modelling</span>
+      <span>·</span>
+      <span>Street Dance in Focus</span>
+      <span>·</span>
+      <span>BERTopic</span>
+      <span>·</span>
+      <span>Arts Funding Patterns 2015–2025</span>
+      <span>·</span>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-left">
+      <p class="hero-eyebrow">Data Analyst · Melbourne</p>
+      <h1 class="hero-greeting">Hi, I'm</h1>
+      <h1 class="hero-name">SANNIE!</h1>
+      <p class="hero-sub">I analysed a <u>decade</u> of Creative Australia grants and community data and you'll be surprised with what I found.</p>
+      <a href="#" class="hero-cta" onclick="showInsights()">See the findings ↓</a>
+    </div>
+    <div class="hero-right">
+      <div class="hero-stat-stack">
+        <div class="hero-big-num">10yr</div>
+        <p class="insight-label">A study in two parts</p>
+        <div style="color: rgba(255,255,255,0.75); font-family: 'DM Mono', monospace; font-size: 0.75rem; line-height: 2.2; letter-spacing: 0.1em;">
+          <div style="color: #ffffff; margin-bottom: 0.5rem; font-weight: 500;">Part 01 — Grants Data</div>
+          <div>10 years of funding · 6 states</div>
+          <div>Geographic shifts · trend analysis</div>
+          <br>
+          <div style="color: #ffffff; margin-bottom: 0.5rem; font-weight: 500;">Part 02 — Community Voice</div>
+          <div>BERTopic NLP · 6 themes</div>
+          <div>What practitioners actually say</div>
+          <br>
+          <div style="color: #C0FF77;">The gap between them is the insight.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Insights -->
+  <div class="insights" id="insights-section">
+    <p class="section-label">3 Surprising Insights</p>
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="insight-num">01</div>
+        <h3 class="insight-title">Victoria surged.. and fell back</h3>
+        <p class="insight-body">Victoria's share of national arts funding spiked dramatically around 2023 before declining sharply, while NSW has trended downward over the same period.</p>
+        <span class="insight-tag">Grants Data</span>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">02</div>
+        <h3 class="insight-title">The community's loudest theme isn't art 😳 it's <bold>admin</bold></h3>
+        <p class="insight-body">NLP topic modelling on practitioner voices from the Street Dance in Focus report reveals that systemic friction with funding - confusing processes, high effort, low chance of success - dominates community discourse more than creative practice itself.</p>
+        <span class="insight-tag">Topic Modelling</span>
+      </div>
+      <div class="insight-card">
+        <div class="insight-num">03</div>
+        <h3 class="insight-title"><u>Teaching is survival,</u> not vocation</h3>
+        <p class="insight-body">A distinct theme emerged around dancers who teach full-time not by choice but because freelance income is unstable. This labour pattern (teaching as financial necessity) is invisible in funding categories but central to how the sector sustains itself.</p>
+        <span class="insight-tag">Topic Modelling</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Projects -->
+  <div class="projects" id="projects-section">
+    <p class="section-label" style="color: rgba(255,255,255,0.3);">The Projects</p>
+    <div class="projects-grid">
+      <a href="#" class="project-card" onclick="showProject('grants'); return false;">
+        <p class="project-num">01 — Quantitative</p>
+        <h2 class="project-title">Grants Data Analysis</h2>
+        <p class="project-desc">A decade of Creative Australia funding data broken down by state, program, and year.</p>
+        <div class="project-tags">
+          <span class="tag">Python</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">2015–2025</span>
+          <span class="tag">Geographic Analysis</span>
+        </div>
+      </a>
+      <a href="#" class="project-card" onclick="showProject('nlp'); return false;">
+        <p class="project-num">02 — Qualitative NLP</p>
+        <h2 class="project-title">Community Voice & Topic Modelling</h2>
+        <p class="project-desc">BERTopic applied to practitioner text from the Street Dance in Focus report. Six themes emerge, where they don't exactly map neatly onto what gets funded..</p>
+        <div class="project-tags">
+          <span class="tag">BERTopic</span>
+          <span class="tag">Python</span>
+          <span class="tag">NLP</span>
+          <span class="tag">Proof of Concept</span>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <span>Sannie — 2025</span>
+    <span>Data Analytics · Creative Industries</span>
+  </footer>
+
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- GRANTS PROJECT PAGE                        -->
+<!-- ══════════════════════════════════════════ -->
+<div id="grants-page" class="page">
+  <nav>
+    <span class="nav-name">Sannie</span>
+    <div class="nav-icons">
+      <a href="https://www.linkedin.com/in/sannie-ek/" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://github.com/sannieisegg" target="_blank" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    </div>
+  </nav>
+
+  <div class="project-hero">
+    <button class="back-btn" onclick="showHome()">← Back to home</button>
+    <p class="hero-eyebrow">Project 01 — Quantitative Analysis</p>
+    <h1 class="project-hero-title">Where does Australian arts funding actually go?</h1>
+    <p class="project-hero-sub">I analysed a decade of Creative Australia grants data (2015–2025) for geographic patterns, temporal shifts, and potential structural inequities across states and territories.</p>
+    <div class="project-meta">
+      <div class="meta-item"><label>Tools</label><span>Python · Tableau · SQL</span></div>
+      <div class="meta-item"><label>Data</label><span>Creative Australia open grants dataset</span></div>
+      <div class="meta-item"><label>Period</label><span>2015 – 2025</span></div>
+      <div class="meta-item"><label>Type</label><span>Exploratory Analysis</span></div>
+    </div>
+  </div>
+
+  <div class="project-content">
+
+    <h2>Introduction</h2>
+    <p>This exploratory analysis investigates national arts funding patterns across geography and grant categories to understand distribution dynamics, concentration patterns, and structural signals within the ecosystem. The aim is to simulate how data science techniques can support strategic and policy decision-making at Creative Australia.</p>
+
+    <h2>Chart 1 — State Funding Distribution</h2>
+    <p>Funding peaks in 2016, 2020, and 2023 are visible across all states, suggesting cyclical or programmatic funding surges rather than organic growth. NSW and Victoria consistently anchor total allocation volume, indicating structural concentration in these states.</p>
+
+    <img src="chart1.png" alt="State Funding Distribution" style="width:100%; border: 1px solid var(--border); margin: 1.5rem 0 0.5rem;">
+
+    <h2>Chart 2 — Share of National Funding (%)</h2>
+    <p>While absolute allocations fluctuate, relative funding share remains comparatively stable for major states. This might suggest structural proportionality in distribution rather than opportunistic reallocation.</p>
+
+    <img src="chart2.png" alt="Fund Allocation by States" style="width:100%; border: 1px solid var(--border); margin: 1.5rem 0 0.5rem;">
+
+    <div class="limitation-box">
+      <strong>Insight</strong>
+      Smaller states display higher volatility in percentage share, indicating potential sensitivity to large individual grants or limited baseline allocation. This warrants closer examination of whether access/structural barriers (not just demand) are driving the gap.
+    </div>
+
+    <h2>Charts 3 & 4 — Programmatic Priorities: Top Grant Categories Over Time</h2>
+    <p>Category ranking volatility between 2019–2021 suggests shifting strategic emphasis, potentially reflecting sector recovery measures during COVID-19. Notably, organisational project funding rises in prominence during high-volume years.</p>
+
+    <img src="chart3.png" alt="Top 5 Grant Categories" style="width:100%; border: 1px solid var(--border); margin: 1.5rem 0 0.5rem;">
+    <img src="chart4.png" alt="Top 10% Recipients" style="width:100%; border: 1px solid var(--border); margin: 1.5rem 0 2rem;">
+
+    <div class="limitation-box">
+      <strong>Strategic Question</strong>
+      Do funding surges disproportionately benefit institutional structures over individuals? The concentration of top recipients are established organisations with existing infrastructure.
+    </div>
+
+    <h2>Limitations & Considerations</h2>
+    <p>Any reading of this data should account for the following structural limitations:</p>
+    <div style="margin-top: 1rem; display: grid; gap: 0.75rem;">
+      <div style="display: flex; gap: 1rem; align-items: flex-start;">
+        <span style="font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent); margin-top: 0.15rem; flex-shrink: 0;">01</span>
+        <p style="margin: 0;">Funding amount alone does not capture impact, as a small grant to an emerging artist may also generate disproportionate cultural value.</p>
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: flex-start;">
+        <span style="font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent); margin-top: 0.15rem; flex-shrink: 0;">02</span>
+        <p style="margin: 0;">State comparisons are not normalised by population or creative sector size, which may overstate the dominance of NSW and Victoria.</p>
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: flex-start;">
+        <span style="font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent); margin-top: 0.15rem; flex-shrink: 0;">03</span>
+        <p style="margin: 0;">Grant categories may evolve in definition over time, making longitudinal comparisons across categories imprecise.</p>
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: flex-start;">
+        <span style="font-family: 'DM Mono', monospace; font-size: 0.7rem; color: var(--accent); margin-top: 0.15rem; flex-shrink: 0;">04</span>
+        <p style="margin: 0;">Decision year may not reflect actual disbursement timing, introducing potential lag effects in the data.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <span>Sannie — 2025</span>
+    <span><a href="#" onclick="showProject('nlp'); return false;" style="color: rgba(255,255,255,0.4); text-decoration: none; font-family: 'DM Mono', monospace; font-size: 0.7rem; letter-spacing: 0.1em;">Next: Topic Modelling →</a></span>
+  </footer>
+</div>
+
+
+<!-- ══════════════════════════════════════════ -->
+<!-- NLP PROJECT PAGE                           -->
+<!-- ══════════════════════════════════════════ -->
+<div id="nlp-page" class="page">
+  <nav>
+    <span class="nav-name">Sannie</span>
+    <div class="nav-icons">
+      <a href="https://www.linkedin.com/in/sannie-ek/" target="_blank" title="LinkedIn"><svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+      <a href="https://github.com/sannieisegg" target="_blank" title="GitHub"><svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg></a>
+    </div>
+  </nav>
+
+  <div class="project-hero">
+    <button class="back-btn" onclick="showHome()">← Back to home</button>
+    <p class="hero-eyebrow">Project 02 — NLP / Text Analysis</p>
+    <h1 class="project-hero-title">What does the street dance community actually say it needs?</h1>
+    <p class="project-hero-sub">I applied BERTopic to practitioner interviews and survey responses from Creative Australia's recent Street Dance in Focus report with Cypher Culture and discovered six themes that addresses existing gaps in funding and support for grassroot communities.</p>
+    <div class="project-meta">
+      <div class="meta-item"><label>Method</label><span>BERTopic · Sentence Transformers</span></div>
+      <div class="meta-item"><label>Source</label><span>Street Dance in Focus (Creative Australia, 2025)</span></div>
+      <div class="meta-item"><label>Corpus</label><span>40 text passages</span></div>
+      <div class="meta-item"><label>Type</label><span>Proof of Concept</span></div>
+    </div>
+  </div>
+
+  <div class="project-content">
+
+    <h2>Introduction</h2>
+    <p>Creative Australia's Street Dance in Focus (2025/2026) contains extended first-person accounts from practitioners about what their work actually feels like from the inside. These include case study interviews, open survey responses, and barriers assessments that provided us a range of text corpus that reflects genuine community voice.</p>
+    <p>The research question: By applying topic modelling to this language, what themes emerge, and how do they compare to the categories that do receive funding?</p>
+
+    <div class="limitation-box">
+      <strong>Scope & Methodology</strong>
+      BERTopic was applied to 40 qualitative text passages extracted from the report, including practitioner interviews and open survey responses. This is a proof-of-concept on a purposive sample, not a representative corpus. Results are indicative. A larger dataset, ideally including actual grant application text, would produce more stable clusters.
+    </div>
+
+    <h2>Six Themes from Community Voice</h2>
+    <p>BERTopic identified six coherent topic clusters. The chart below shows the most statistically significant keywords per theme.</p>
+
+    <img src="newplot.png" alt="Key Themes in Australian Street Dance Community Voice" style="width:100%; border: 1px solid #E2DEDC; margin: 1.5rem 0 2rem; background: white; padding: 1rem;">
+
+    <div style="margin-top: 1.5rem; display: grid; gap: 1.25rem;">
+      <div style="display: flex; gap: 1rem; align-items: flex-start;"><span style="font-family: DM Mono, monospace; font-size: 0.7rem; color: #C090FF; margin-top: 0.15rem; flex-shrink: 0;">01</span><p style="margin: 0;"><strong>Identity & Cultural Belonging</strong> — Events, participation, and Breaking are the entry point into community, as this is what draws people in and keeps them.</p></div>
+      <div style="display: flex; gap: 1rem; align-items: flex-start;"><span style="font-family: DM Mono, monospace; font-size: 0.7rem; color: #C090FF; margin-top: 0.15rem; flex-shrink: 0;">02</span><p style="margin: 0;"><strong>Street Dance Ecosystem</strong> — The community infrastructure consists of: dancers, events, organisations, which is what as practitioners understand it, not as institutions define it.</p></div>
+      <div style="display: flex; gap: 1rem; align-items: flex-start;"><span style="font-family: DM Mono, monospace; font-size: 0.7rem; color: #C090FF; margin-top: 0.15rem; flex-shrink: 0;">03</span><p style="margin: 0;"><strong>Regional Inequity & Teaching Labour</strong> — Starting out in small states with limited access, along with teaching as a means of financial stability, not vocation.</p></div>
+      <div style="display: flex; gap: 1rem; align-items: flex-start;"><span style="font-family: DM Mono, monospace; font-size: 0.7rem; color: #C090FF; margin-top: 0.15rem; flex-shrink: 0;">04</span><p style="margin: 0;"><strong>Grassroots Style Emergence</strong> — How new Australian styles like Flooding spread informally from word-of mouth across cities and internationally, including culture travelling without institutional support.</p></div>
+      <div style="display: flex; gap: 1rem; align-items: flex-start;"><span style="font-family: DM Mono, monospace; font-size: 0.7rem; color: #C090FF; margin-top: 0.15rem; flex-shrink: 0;">05</span><p style="margin: 0;"><strong>Financial Barriers to Training</strong> — Day job conflicts, unaffordable classes, inability to attend consistently: The systemic squeeze between financial necessity and professional development.</p></div>
+      <div style="display: flex; gap: 1rem; align-items: flex-start;"><span style="font-family: DM Mono, monospace; font-size: 0.7rem; color: #C090FF; margin-top: 0.15rem; flex-shrink: 0;">06</span><p style="margin: 0;"><strong>Systemic Friction with Funding</strong> — Grant processes described as confusing, time-consuming, high-effort and low-reward, highlighting barriers that compound existing financial precarity.</p></div>
+    </div>
+
+
+    <div class="limitation-box">
+      <strong>What This Suggests</strong>
+      If Creative Australia wants to reach emerging and grassroots creative communities (not just established organisations) , the friction of the application process itself may be the most significant barrier. This is a testable hypothesis that warrants deeper research with a larger corpus.
+    </div>
+
+  </div>
+
+  <footer>
+    <span>Sannie — 2026</span>
+    <span><a href="#" onclick="showProject('grants'); return false;" style="color: rgba(255,255,255,0.4); text-decoration: none; font-family: DM Mono, monospace; font-size: 0.7rem; letter-spacing: 0.1em;">← Previous: Grants Analysis</a></span>
+  </footer>
+</div>
+
+<script>
+  function showHome() {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('home').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function showProject(id) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(id + '-page').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function showInsights() {
+    document.getElementById('insights-section').scrollIntoView({ behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
